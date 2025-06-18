@@ -23,7 +23,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background-color: #80def7;
+  background-color: #0d92ae;
   border-radius: 2px;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .header-content h2 svg {
-  color: #80def7;
+  color: #0d92ae;
   width: 24px;
   height: 24px;
 }
@@ -57,8 +57,8 @@
 }
 
 .add-asset-button {
-  background: #80def7;
-  color: #1e293b;
+  background: #0d92ae;
+  color: #ffffff;
   border: none;
   padding: 0 16px;
   border-radius: 6px;
@@ -70,11 +70,11 @@
   gap: 8px;
   transition: all 0.2s ease;
   height: 36px;
-  white-space: nowrap;
+  white-space: nowrap;  
 }
 
 .add-asset-button:hover {
-  background: #5dc7e6;
+  background: #0a6e85;
 }
 
 .stats-cards {
@@ -107,7 +107,7 @@
 }
 
 .stat-icon.total {
-  background: #80def7;
+  background: #0d92ae;
 }
 
 .stat-icon.operational {
@@ -160,8 +160,8 @@
 }
 
 .search-box:focus-within {
-  border-color: #80def7;
-  box-shadow: 0 0 0 3px rgba(128, 222, 247, 0.1);
+  border-color: #0d92ae;
+  box-shadow: 0 0 0 3px rgba(13, 146, 174, 0.1);
 }
 
 .search-box input {

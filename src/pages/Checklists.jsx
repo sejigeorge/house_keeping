@@ -12,9 +12,11 @@ import {
   faUndo,
   faTrash,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faClipboardList
 } from '@fortawesome/free-solid-svg-icons';
 import './Checklists.css';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 
 const Checklists = () => {
   const location = useLocation();
@@ -211,8 +213,17 @@ const Checklists = () => {
 
   return (
     <div className="checklists-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
-        <h2>Room Cleaning Checklists</h2>
+        <div className="header-content">
+          <h2>
+            <FontAwesomeIcon icon={faClipboardList} />
+            Checklists
+          </h2>
+          <p className="header-subtitle">Manage and track cleaning checklists</p>
+        </div>
         <button className="add-checklist-button" onClick={handleAddChecklist}>
           <FontAwesomeIcon icon={faHospital} /> New Checklist
         </button>

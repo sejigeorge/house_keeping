@@ -26,7 +26,7 @@
 }
 
 .header-content h2 svg {
-  color: #80def7;
+  color: #0d92ae;
   width: 24px;
   height: 24px;
 }
@@ -53,7 +53,7 @@
 }
 
 .stat-item svg {
-  color: #80def7;
+  color: #0d92ae;
   font-size: 1.25rem;
 }
 
@@ -90,8 +90,8 @@
 }
 
 .search-box:focus-within {
-  border-color: #80def7;
-  box-shadow: 0 0 0 3px rgba(128, 222, 247, 0.1);
+  border-color: #0d92ae;
+  box-shadow: 0 0 0 3px rgba(13, 146, 174, 0.1);
 }
 
 .search-box input {
@@ -446,8 +446,8 @@
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
-  background: #80def7;
-  color: #1e293b;
+  background: #0d92ae;
+  color: #ffffff;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;

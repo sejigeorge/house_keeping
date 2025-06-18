@@ -1,12 +1,17 @@
 .navbar {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  left: 250px;
   height: 60px;
-  background-color: #010607;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  z-index: 100;
+  min-height: 60px;
+  background-color: #0d131e;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: visible;
+  margin-bottom: 30px;
 }
 
 .navbar-content {
@@ -16,6 +21,7 @@
   width: 100%;
   height: 100%;
   padding: 0 2rem;
+  overflow: visible;
 }
 
 .navbar-left {
@@ -42,7 +48,7 @@
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  width: 450px;
+  width: 380px;
   transition: all 0.2s ease;
 }
 
@@ -58,7 +64,7 @@
   width: 100%;
   padding: 8px 36px 8px 12px;
   font-size: 14px;
-  height: 30px;
+  height: 20px;
 }
 
 .search-input::placeholder {
@@ -110,8 +116,9 @@
 .icon-button.add-asset,
 .icon-button.add-checklist,
 .icon-button.add-assessment {
-  background-color: #80def7;
-  color: #1e293b;
+  color: #fff;
+  background: linear-gradient(135deg, rgb(5, 130, 172), rgb(16, 85, 97));
+  border: none;
   padding: 8px 16px;
   gap: 8px;
   font-weight: 500;
@@ -121,14 +128,43 @@
 .icon-button.add-asset:hover,
 .icon-button.add-checklist:hover,
 .icon-button.add-assessment:hover {
-  background-color: #5dc7e6;
-  color: #1e293b;
+  background: linear-gradient(135deg, rgb(16, 85, 97), rgb(5, 130, 172));
+  color: #fff;
 }
 
 .icon-button.add-asset .button-text,
 .icon-button.add-checklist .button-text,
 .icon-button.add-assessment .button-text {
   display: inline-block;
+}
+
+/* Custom Action button style */
+.icon-button.add-assessment.action-red {
+  color: #fff !important;
+  background: #d9534f !important;
+  background-color: #d9534f !important;
+  background-image: none !important;
+  border: 1.5px solid #d43f3a !important;
+}
+
+.icon-button.add-assessment.action-red:hover {
+  background: #d43f3a !important;
+  background-color: #d43f3a !important;
+  background-image: none !important;
+  color: #fff !important;
+}
+
+/* Style the dropdown arrow for the 'More' menu to match the red color scheme */
+.main-nav-menu .nav-dropdown > span {
+  position: relative;
+}
+.main-nav-menu .nav-dropdown > span::after {
+  content: '\25BC'; /* Downward triangle */
+  display: inline-block;
+  margin-left: 6px;
+  color: #d9534f;
+  font-size: 0.9em;
+  vertical-align: middle;
 }
 
 /* Responsive Design */
@@ -184,4 +220,197 @@
   .logo {
     height: 24px;
   }
+}
+
+.navbar-button, .navbar .btn {
+  background: linear-gradient(135deg, #038ba4, #37a9be);
+  color: #fff;
+  border: 1.5px solid #038ba4;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.navbar-button:hover, .navbar .btn:hover {
+  background: linear-gradient(135deg, #37a9be, #038ba4);
+  box-shadow: 0 4px 12px rgba(3,139,164,0.15);
+}
+
+.main-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-left: 1.5rem;
+  margin-right: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1.08rem;
+  overflow: visible;
+}
+
+/* Dropdown styles for More menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-toggle {
+  color: #fff;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 0.2s;
+  font-weight: 500;
+  font-size: 1.08rem;
+}
+.dropdown-toggle:hover {
+  color: #37a9be;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: #1a232b;
+  min-width: 170px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 9999;
+  border-radius: 8px;
+  top: 110%;
+  left: 0;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+.dropdown-menu a {
+  color: #fff;
+  padding: 10px 16px;
+  display: block;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.dropdown-menu a:hover {
+  background: #37a9be;
+  color: #fff;
+}
+
+.main-nav-menu a, .main-nav-menu .nav-dropdown > span {
+  color: #fff;
+  text-decoration: none;
+  padding: 0 6px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.main-nav-menu a:hover, .main-nav-menu .nav-dropdown > span:hover {
+  color: #37a9be;
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background: #1a232b;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 10;
+  border-radius: 6px;
+  top: 100%;
+  left: 0;
+}
+
+.nav-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #fff;
+  padding: 10px 16px;
+  display: block;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.dropdown-content a:hover {
+  background: #37a9be;
+  color: #fff;
+}
+
+.emergency-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.emergency-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 36px 32px 24px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+  position: relative;
+}
+
+.emergency-modal h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.emergency-btn {
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.emergency-btn:hover {
+  filter: brightness(0.92);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.emergency-close-btn {
+  margin-top: 10px;
+  background: #e2e8f0;
+  color: #475569;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.emergency-close-btn:hover {
+  background: #cbd5e1;
+}
+
+.nav-caret-icon {
+  color: #d9534f;
+  font-size: 1.2em;
+  margin-left: 6px;
+  vertical-align: middle;
 }

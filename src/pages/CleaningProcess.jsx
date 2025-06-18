@@ -14,6 +14,7 @@ import {
   faClipboardCheck
 } from '@fortawesome/free-solid-svg-icons';
 import AddRoomModal from '../components/AddRoomModal';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 import './CleaningProcess.css';
 
 const CleaningProcess = () => {
@@ -106,6 +107,9 @@ const CleaningProcess = () => {
 
   return (
     <div className="cleaning-process-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>

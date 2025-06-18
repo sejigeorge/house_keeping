@@ -23,7 +23,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background-color: #80def7;
+  background-color: #0d92ae;
   border-radius: 2px;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .header-content h2 svg {
-  color: #80def7;
+  color: #0d92ae;
   width: 24px;
   height: 24px;
 }
@@ -77,8 +77,8 @@
 }
 
 .period-selector button.active {
-  background: #80def7;
-  color: #1e293b;
+  background: #0d92ae;
+  color: #ffffff;
 }
 
 .stats-grid {
@@ -164,7 +164,7 @@
   background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(185, 6, 6, 0.1);
 }
 
 .quick-actions-section h3,

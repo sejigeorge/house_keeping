@@ -10,17 +10,42 @@ import {
   faExclamationCircle,
   faBed,
   faUserInjured,
-  faCalendarAlt
+  faCalendarAlt,
+  faRedo,
+  faHashtag,
+  faCalendarDay,
+  faCaretRight
 } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../components/Footer';
 import ConfirmationModal from '../components/ConfirmationModal';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 import './RoomDischarge.css';
+
+// Simulate fetching multiple room details for discharged patients
+const dummyRooms = [
+  {
+    roomNumber: '101',
+    floor: '1st Floor',
+    wing: 'A-Wing',
+    roomType: 'Patient Room',
+    priority: 'High',
+    status: 'Under Cleaning',
+    patientId: 'P12345',
+    patientName: 'John Doe',
+  },
+  {
+    roomNumber: '202',
+    floor: '2nd Floor',
+    wing: 'B-Wing',
+    roomType: 'ICU Room',
+    priority: 'Urgent',
+    status: 'Pending',
+    patientId: 'P67890',
+    patientName: 'Jane Smith',
+  }
+];
 
 const RoomDischarge = () => {
   const [formData, setFormData] = useState({
-    roomNumber: '',
-    floor: '',
-    wing: '',
     patientId: '',
     requestId: '',
     dischargeDate: '',
@@ -33,11 +58,18 @@ const RoomDischarge = () => {
     recurringService: false,
     frequency: 'daily',
     contactPerson: '',
-    contactNumber: ''
+    contactNumber: '',
+    isRecurring: 'no',
+    occurrenceCount: '',
+    startDate: ''
   });
 
   const [showModal, setShowModal] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
+
+  const [selectedRoomIndex, setSelectedRoomIndex] = useState(0);
+  const [editMode, setEditMode] = useState(false);
+  const [editableRoom, setEditableRoom] = useState({ ...dummyRooms[0] });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -65,9 +97,6 @@ const RoomDischarge = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setFormData({
-      roomNumber: '',
-      floor: '',
-      wing: '',
       patientId: '',
       requestId: '',
       dischargeDate: '',
@@ -80,88 +109,108 @@ const RoomDischarge = () => {
       recurringService: false,
       frequency: 'daily',
       contactPerson: '',
-      contactNumber: ''
+      contactNumber: '',
+      isRecurring: 'no',
+      occurrenceCount: '',
+      startDate: ''
     });
   };
 
+  const handleRoomChange = (e) => {
+    const idx = parseInt(e.target.value, 10);
+    setSelectedRoomIndex(idx);
+    setEditableRoom({ ...dummyRooms[idx] });
+    setEditMode(false);
+  };
+
+  const handleEditClick = () => {
+    setEditMode(true);
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditableRoom((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveEdit = () => {
+    dummyRooms[selectedRoomIndex] = { ...editableRoom };
+    setEditMode(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditableRoom({ ...dummyRooms[selectedRoomIndex] });
+    setEditMode(false);
+  };
+
+  const fetchedRoomDetails = dummyRooms[selectedRoomIndex];
+
   return (
     <div className="room-discharge-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>
             <FontAwesomeIcon icon={faHospital} />
-            Room Discharge Request
+            Room Discharge
+            <FontAwesomeIcon icon={faCaretRight} style={{ color: '#111', marginLeft: 8 }} />
           </h2>
-          <p className="header-subtitle">Submit and manage room cleaning requests after patient discharge</p>
+          <p className="header-subtitle">Manage and track room discharge requests</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="room-discharge-form">
-        <div className="form-section">
-          <h3>
-            <FontAwesomeIcon icon={faBed} />
-            Room Information
-          </h3>
-          <div className="form-grid">
-            <div className="input-group">
-              <label htmlFor="roomNumber">
-                <FontAwesomeIcon icon={faLocationDot} />
-                Room Number *
-              </label>
-              <input
-                type="text"
-                id="roomNumber"
-                name="roomNumber"
-                value={formData.roomNumber}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter room number"
-              />
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="floor">Floor *</label>
-              <input
-                type="text"
-                id="floor"
-                name="floor"
-                value={formData.floor}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter floor number"
-              />
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="wing">Wing</label>
-          <input
-                type="text"
-                id="wing"
-                name="wing"
-                value={formData.wing}
-                onChange={handleInputChange}
-                placeholder="Enter wing name"
-              />
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="patientId">
-                <FontAwesomeIcon icon={faUserInjured} />
-                Patient ID *
-        </label>
-            <input
-                type="text"
-                id="patientId"
-                name="patientId"
-                value={formData.patientId}
-                onChange={handleInputChange}
-                required
-                placeholder="Enter patient ID"
-              />
-            </div>
+      {/* Room Details Info Panel */}
+      <div className="room-details-panel">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3><FontAwesomeIcon icon={faBed} /> Room Details</h3>
+          <div>
+            <select value={selectedRoomIndex} onChange={handleRoomChange} style={{ marginRight: 16, padding: '6px 12px', borderRadius: 6 }}>
+              {dummyRooms.map((room, idx) => (
+                <option key={room.roomNumber} value={idx}>
+                  Room {room.roomNumber} - {room.patientName}
+                </option>
+              ))}
+            </select>
+            {!editMode && (
+              <button className="edit-btn" onClick={handleEditClick} style={{ padding: '6px 18px', borderRadius: 6, background: '#0582ac', color: '#fff', border: 'none', fontWeight: 500, cursor: 'pointer' }}>Edit</button>
+            )}
           </div>
         </div>
+        <div className="room-details-grid">
+          {editMode ? (
+            <>
+              <div><strong>Room Number:</strong> <input name="roomNumber" value={editableRoom.roomNumber} onChange={handleEditInputChange} /></div>
+              <div><strong>Floor:</strong> <input name="floor" value={editableRoom.floor} onChange={handleEditInputChange} /></div>
+              <div><strong>Wing:</strong> <input name="wing" value={editableRoom.wing} onChange={handleEditInputChange} /></div>
+              <div><strong>Room Type:</strong> <input name="roomType" value={editableRoom.roomType} onChange={handleEditInputChange} /></div>
+              <div><strong>Priority:</strong> <input name="priority" value={editableRoom.priority} onChange={handleEditInputChange} /></div>
+              <div><strong>Status:</strong> <input name="status" value={editableRoom.status} onChange={handleEditInputChange} /></div>
+              <div><strong>Patient ID:</strong> <input name="patientId" value={editableRoom.patientId} onChange={handleEditInputChange} /></div>
+              <div><strong>Patient Name:</strong> <input name="patientName" value={editableRoom.patientName} onChange={handleEditInputChange} /></div>
+            </>
+          ) : (
+            <>
+              <div><strong>Room Number:</strong> {fetchedRoomDetails.roomNumber}</div>
+              <div><strong>Floor:</strong> {fetchedRoomDetails.floor}</div>
+              <div><strong>Wing:</strong> {fetchedRoomDetails.wing}</div>
+              <div><strong>Room Type:</strong> {fetchedRoomDetails.roomType}</div>
+              <div><strong>Priority:</strong> {fetchedRoomDetails.priority}</div>
+              <div><strong>Status:</strong> {fetchedRoomDetails.status}</div>
+              <div><strong>Patient ID:</strong> {fetchedRoomDetails.patientId}</div>
+              <div><strong>Patient Name:</strong> {fetchedRoomDetails.patientName}</div>
+            </>
+          )}
+        </div>
+        {editMode && (
+          <div style={{ marginTop: 18, display: 'flex', gap: 12 }}>
+            <button className="save-btn" onClick={handleSaveEdit} style={{ padding: '6px 18px', borderRadius: 6, background: '#22c55e', color: '#fff', border: 'none', fontWeight: 500, cursor: 'pointer' }}>Save</button>
+            <button className="cancel-btn" onClick={handleCancelEdit} style={{ padding: '6px 18px', borderRadius: 6, background: '#ef4444', color: '#fff', border: 'none', fontWeight: 500, cursor: 'pointer' }}>Cancel</button>
+          </div>
+        )}
+      </div>
 
+      <form onSubmit={handleSubmit} className="room-discharge-form">
         <div className="form-section">
           <h3>
             <FontAwesomeIcon icon={faCalendarAlt} />
@@ -172,7 +221,7 @@ const RoomDischarge = () => {
               <label htmlFor="dischargeDate">
                 <FontAwesomeIcon icon={faClock} />
                 Discharge Date *
-          </label>
+              </label>
               <input
                 type="date"
                 id="dischargeDate"
@@ -185,7 +234,7 @@ const RoomDischarge = () => {
 
             <div className="input-group">
               <label htmlFor="dischargeTime">Discharge Time *</label>
-            <input
+              <input
                 type="time"
                 id="dischargeTime"
                 name="dischargeTime"
@@ -202,7 +251,7 @@ const RoomDischarge = () => {
               </label>
               <select
                 id="cleaningType"
-              name="cleaningType"
+                name="cleaningType"
                 value={formData.cleaningType}
                 onChange={handleInputChange}
                 required
@@ -258,7 +307,7 @@ const RoomDischarge = () => {
               </select>
             </div>
 
-            <div className="input-group">
+            <div className="input-group required">
               <label htmlFor="contactPerson">Contact Person *</label>
               <input
                 type="text"
@@ -266,12 +315,12 @@ const RoomDischarge = () => {
                 name="contactPerson"
                 value={formData.contactPerson}
                 onChange={handleInputChange}
+                placeholder="Name of contact person"
                 required
-                placeholder="Enter contact person name"
               />
             </div>
 
-            <div className="input-group">
+            <div className="input-group required">
               <label htmlFor="contactNumber">Contact Number *</label>
               <input
                 type="tel"
@@ -279,8 +328,8 @@ const RoomDischarge = () => {
                 name="contactNumber"
                 value={formData.contactNumber}
                 onChange={handleInputChange}
+                placeholder="Contact number"
                 required
-                placeholder="Enter contact number"
               />
             </div>
 
@@ -300,7 +349,7 @@ const RoomDischarge = () => {
               <label htmlFor="attachments">
                 <FontAwesomeIcon icon={faUpload} />
                 Attachments
-          </label>
+              </label>
               <input
                 type="file"
                 id="attachments"
@@ -311,6 +360,77 @@ const RoomDischarge = () => {
               />
               <small>Upload photos or documents (optional)</small>
             </div>
+          </div>
+        </div>
+
+        <div className="form-section">
+          <h3>
+            <FontAwesomeIcon icon={faCalendarAlt} /> Recurring Service
+          </h3>
+          <div className="form-grid">
+            <div className="input-group">
+              <label htmlFor="isRecurring">
+                <FontAwesomeIcon icon={faRedo} /> Recurring Service
+              </label>
+              <select
+                id="isRecurring"
+                name="isRecurring"
+                value={formData.isRecurring}
+                onChange={handleInputChange}
+              >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+
+            {formData.isRecurring === "yes" && (
+              <>
+                <div className="input-group">
+                  <label htmlFor="frequency">
+                    <FontAwesomeIcon icon={faClock} /> Frequency
+                  </label>
+                  <select
+                    id="frequency"
+                    name="frequency"
+                    value={formData.frequency}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select Frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="occurrenceCount">
+                    <FontAwesomeIcon icon={faHashtag} /> Number of Times
+                  </label>
+                  <input
+                    type="number"
+                    id="occurrenceCount"
+                    name="occurrenceCount"
+                    min="1"
+                    value={formData.occurrenceCount}
+                    onChange={handleInputChange}
+                    placeholder="Enter number of times"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="startDate">
+                    <FontAwesomeIcon icon={faCalendarDay} /> Start Date
+                  </label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -328,7 +448,6 @@ const RoomDischarge = () => {
         requestData={submittedData}
         requestType="roomDischarge"
       />
-      <Footer />
     </div>
   );
 };

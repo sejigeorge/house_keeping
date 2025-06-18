@@ -23,7 +23,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background-color: #80def7;
+  background-color: #0d92ae;
   border-radius: 2px;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .header-content h2 svg {
-  color: #80def7;
+  color: #0d92ae;
   width: 24px;
   height: 24px;
 }
@@ -84,7 +84,7 @@
 }
 
 .menu-btn-icon {
-  color: #80def7;
+  color: #0d92ae;
   font-size: 24px;
   margin-bottom: 8px;
 }
@@ -155,11 +155,11 @@
   margin-bottom: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #00bfff;
+  border-left: 4px solid #0d92ae;
 }
 
 .indent-section h3 {
-  color: #00bfff;
+  color: #0d92ae;
   margin-bottom: 1rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -212,7 +212,7 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #00bfff;
+  color: #0d92ae;
   font-weight: 500;
 }
 
@@ -234,7 +234,7 @@
 .priority-select:focus,
 .area-select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(13, 146, 174, 0.3);
 }
 
 .priority-section {
@@ -267,7 +267,7 @@
 
 /* Submit button */
 .submit-btn {
-  background-color: #00bfff;
+  background-color: #0d92ae;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -279,7 +279,7 @@
 }
 
 .submit-btn:hover {
-  background-color: #00a2d3;
+  background-color: #0a6e85;
 }
 
 .submit-btn:active {

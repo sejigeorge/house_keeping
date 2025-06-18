@@ -22,7 +22,7 @@ import {
   faTimes,
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../components/Footer';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 import './QualityAssessment.css';
 
 const QualityAssessment = () => {
@@ -425,13 +425,16 @@ const QualityAssessment = () => {
 
   return (
     <div className="quality-assessment-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>
             <FontAwesomeIcon icon={faClipboardCheck} />
             Quality Assessment
           </h2>
-          <p className="header-subtitle">Monitor and evaluate cleaning standards across all areas</p>
+          <p className="header-subtitle">Track and review quality assessments</p>
         </div>
         <div className="header-stats">
           <div className="stat-item">
@@ -583,7 +586,6 @@ const QualityAssessment = () => {
           </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 };

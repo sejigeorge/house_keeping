@@ -18,6 +18,7 @@ import {
   faTools
 } from '@fortawesome/free-solid-svg-icons';
 import './Dashboard.css';
+import TimeDateDisplay from './TimeDateDisplay';
 
 const Dashboard = () => {
   const [period, setPeriod] = useState('today');
@@ -208,6 +209,9 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>

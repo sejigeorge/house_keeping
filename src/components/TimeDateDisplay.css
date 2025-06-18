@@ -1,0 +1,25 @@
+.time-date-display {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #888888;
+  margin-left: auto;
+  padding: 0.5rem 1rem 0.5rem 0;
+}
+
+.time-date-display .time,
+.time-date-display .date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-date-display svg {
+  font-size: 1rem;
+  color: #000000;
+  background-color: rgb(255, 255, 255);
+  padding: 0.5rem;
+} 

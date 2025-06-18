@@ -9,10 +9,14 @@ import {
   faUpload,
   faExclamationCircle,
   faCalendarAlt,
-  faNotesMedical
+  faNotesMedical,
+  faSync,
+  faHashtag,
+  faCalendarDay,
+  faCaretRight
 } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../components/Footer';
 import ConfirmationModal from '../components/ConfirmationModal';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 import './DepartmentRequest.css';
 
 const DepartmentRequest = () => {
@@ -30,7 +34,10 @@ const DepartmentRequest = () => {
     recurringService: false,
     frequency: 'daily',
     contactPerson: '',
-    contactNumber: ''
+    contactNumber: '',
+    isRecurring: 'no',
+    occurrenceCount: '',
+    startDate: ''
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -100,17 +107,24 @@ const DepartmentRequest = () => {
       recurringService: false,
       frequency: 'daily',
       contactPerson: '',
-      contactNumber: ''
+      contactNumber: '',
+      isRecurring: 'no',
+      occurrenceCount: '',
+      startDate: ''
     });
   };
 
   return (
     <div className="department-request-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>
             <FontAwesomeIcon icon={faBuilding} />
             Department Service Request
+            <FontAwesomeIcon icon={faCaretRight} style={{ color: '#111', marginLeft: 8 }} />
           </h2>
           <p className="header-subtitle">Submit and manage cleaning requests for hospital departments</p>
         </div>
@@ -126,7 +140,7 @@ const DepartmentRequest = () => {
             <div className="input-group">
               <label htmlFor="department">
                 <FontAwesomeIcon icon={faBuilding} />
-                Department *
+                Department 
               </label>
               <select
                 id="department"
@@ -145,7 +159,7 @@ const DepartmentRequest = () => {
             <div className="input-group">
               <label htmlFor="location">
                 <FontAwesomeIcon icon={faLocationDot} />
-                Specific Location *
+                Specific Location 
               </label>
               <input
                 type="text"
@@ -159,7 +173,7 @@ const DepartmentRequest = () => {
             </div>
 
             <div className="input-group">
-              <label htmlFor="contactPerson">Contact Person *</label>
+              <label htmlFor="contactPerson">Contact Person</label>
               <input
                 type="text"
                 id="contactPerson"
@@ -172,7 +186,7 @@ const DepartmentRequest = () => {
             </div>
 
             <div className="input-group">
-              <label htmlFor="contactNumber">Contact Number *</label>
+              <label htmlFor="contactNumber">Contact Number </label>
               <input
                 type="tel"
                 id="contactNumber"
@@ -195,7 +209,7 @@ const DepartmentRequest = () => {
             <div className="input-group">
               <label htmlFor="serviceType">
                 <FontAwesomeIcon icon={faClipboardList} />
-                Service Type *
+                Service Type 
               </label>
               <select
                 id="serviceType"
@@ -214,7 +228,7 @@ const DepartmentRequest = () => {
             <div className="input-group">
               <label htmlFor="priority">
                 <FontAwesomeIcon icon={faExclamationCircle} />
-                Priority Level *
+                Priority Level 
               </label>
               <select
                 id="priority"
@@ -225,7 +239,7 @@ const DepartmentRequest = () => {
               >
                 <option value="">Select Priority</option>
                 {priorities.map(priority => (
-                  <option key={priority} value={priority.toLowerCase()}>{priority}</option>
+                  <option key={priority} value={priority.toLowerCase()}> {priority} </option>
                 ))}
               </select>
             </div>
@@ -233,7 +247,7 @@ const DepartmentRequest = () => {
             <div className="input-group">
               <label htmlFor="scheduledDate">
                 <FontAwesomeIcon icon={faClock} />
-                Scheduled Date *
+                Scheduled Date 
               </label>
               <input
                 type="date"
@@ -246,7 +260,7 @@ const DepartmentRequest = () => {
             </div>
 
             <div className="input-group">
-              <label htmlFor="scheduledTime">Scheduled Time *</label>
+              <label htmlFor="scheduledTime">Scheduled Time </label>
               <input
                 type="time"
                 id="scheduledTime"
@@ -256,35 +270,68 @@ const DepartmentRequest = () => {
                 required
               />
             </div>
-          </div>
 
-          <div className="recurring-service">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="recurringService"
-                checked={formData.recurringService}
+            <div className="input-group">
+              <label htmlFor="isRecurring" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <FontAwesomeIcon icon={faCalendarAlt} style={{ color: '#0d92ae', fontSize: 20 }} />
+                Recurring Service
+              </label>
+              <select
+                id="isRecurring"
+                name="isRecurring"
+                value={formData.isRecurring}
                 onChange={handleInputChange}
-              />
-              Recurring Service
-            </label>
+              >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
 
-            {formData.recurringService && (
-              <div className="frequency-select">
-                <label htmlFor="frequency">Frequency</label>
-                <select
-                  id="frequency"
-                  name="frequency"
-                  value={formData.frequency}
-                  onChange={handleInputChange}
-                >
-                  {frequencies.map(freq => (
-                    <option key={freq} value={freq}>
-                      {freq.charAt(0).toUpperCase() + freq.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            {formData.isRecurring === "yes" && (
+              <>
+                <div className="input-group">
+                  <label htmlFor="frequency">
+                    <FontAwesomeIcon icon={faClock} /> Frequency
+                  </label>
+                  <select
+                    id="frequency"
+                    name="frequency"
+                    value={formData.frequency}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select Frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+                <div className="input-group">
+                  <label htmlFor="occurrenceCount">
+                    <FontAwesomeIcon icon={faHashtag} /> Number of Times
+                  </label>
+                  <input
+                    type="number"
+                    id="occurrenceCount"
+                    name="occurrenceCount"
+                    min="1"
+                    value={formData.occurrenceCount}
+                    onChange={handleInputChange}
+                    placeholder="Enter number of times"
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="startDate">
+                    <FontAwesomeIcon icon={faCalendarDay} /> Start Date
+                  </label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -357,7 +404,6 @@ const DepartmentRequest = () => {
         requestData={submittedData}
         requestType="department"
       />
-      <Footer />
     </div>
   );
 };

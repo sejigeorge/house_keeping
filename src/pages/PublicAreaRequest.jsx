@@ -10,10 +10,14 @@ import {
   faExclamationCircle,
   faCity,
   faCalendarAlt,
-  faNotesMedical
+  faNotesMedical,
+  faRedo,
+  faHashtag,
+  faCalendarDay,
+  faCaretRight
 } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../components/Footer';
 import ConfirmationModal from '../components/ConfirmationModal';
+import TimeDateDisplay from '../components/TimeDateDisplay';
 import './PublicAreaRequest.css';
 
 const PublicAreaRequest = () => {
@@ -31,7 +35,10 @@ const PublicAreaRequest = () => {
     recurringService: false,
     frequency: 'daily',
     contactPerson: '',
-    contactNumber: ''
+    contactNumber: '',
+    isRecurring: 'no',
+    occurrenceCount: '',
+    startDate: ''
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -97,19 +104,26 @@ const PublicAreaRequest = () => {
       recurringService: false,
       frequency: 'daily',
       contactPerson: '',
-      contactNumber: ''
+      contactNumber: '',
+      isRecurring: 'no',
+      occurrenceCount: '',
+      startDate: ''
     });
   };
 
   return (
     <div className="public-area-request-container">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5rem' }}>
+        <TimeDateDisplay />
+      </div>
       <div className="page-header">
         <div className="header-content">
           <h2>
             <FontAwesomeIcon icon={faCity} />
-            Public Area Service Request
+            Public Area Request
+            <FontAwesomeIcon icon={faCaretRight} style={{ color: '#111', marginLeft: 8 }} />
           </h2>
-          <p className="header-subtitle">Submit and manage cleaning requests for public areas and common spaces</p>
+          <p className="header-subtitle">Request and manage public area cleaning</p>
         </div>
       </div>
 
@@ -123,7 +137,7 @@ const PublicAreaRequest = () => {
             <div className="input-group">
               <label htmlFor="areaType">
                 <FontAwesomeIcon icon={faCity} />
-                Area Type *
+                Area Type 
               </label>
               <select
                 id="areaType"
@@ -142,7 +156,7 @@ const PublicAreaRequest = () => {
             <div className="input-group">
               <label htmlFor="location">
                 <FontAwesomeIcon icon={faLocationDot} />
-                Specific Location *
+                Specific Location 
               </label>
               <input
                 type="text"
@@ -169,7 +183,7 @@ const PublicAreaRequest = () => {
             </div>
 
             <div className="input-group">
-              <label htmlFor="contactNumber">Contact Number *</label>
+              <label htmlFor="contactNumber">Contact Number </label>
               <input
                 type="tel"
                 id="contactNumber"
@@ -192,7 +206,7 @@ const PublicAreaRequest = () => {
             <div className="input-group">
               <label htmlFor="serviceType">
                 <FontAwesomeIcon icon={faClipboardList} />
-                Service Type *
+                Service Type 
               </label>
               <select
                 id="serviceType"
@@ -211,7 +225,7 @@ const PublicAreaRequest = () => {
             <div className="input-group">
               <label htmlFor="priority">
                 <FontAwesomeIcon icon={faExclamationCircle} />
-                Priority Level *
+                Priority Level 
               </label>
               <select
                 id="priority"
@@ -231,7 +245,7 @@ const PublicAreaRequest = () => {
             <div className="input-group">
               <label htmlFor="scheduledDate">
                 <FontAwesomeIcon icon={faClock} />
-                Scheduled Date *
+                Scheduled Date 
               </label>
               <input
                 type="date"
@@ -244,7 +258,7 @@ const PublicAreaRequest = () => {
             </div>
 
             <div className="input-group">
-              <label htmlFor="scheduledTime">Scheduled Time *</label>
+              <label htmlFor="scheduledTime">Scheduled Time </label>
               <input
                 type="time"
                 id="scheduledTime"
@@ -311,6 +325,77 @@ const PublicAreaRequest = () => {
           </div>
         </div>
 
+        <div className="form-section">
+          <h3>
+            <FontAwesomeIcon icon={faCalendarAlt} /> Recurring Service
+          </h3>
+          <div className="form-grid">
+            <div className="input-group">
+              <label htmlFor="isRecurring">
+                <FontAwesomeIcon icon={faRedo} /> Recurring Service
+              </label>
+              <select
+                id="isRecurring"
+                name="isRecurring"
+                value={formData.isRecurring}
+                onChange={handleInputChange}
+              >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+
+            {formData.isRecurring === "yes" && (
+              <>
+                <div className="input-group">
+                  <label htmlFor="frequency">
+                    <FontAwesomeIcon icon={faClock} /> Frequency
+                  </label>
+                  <select
+                    id="frequency"
+                    name="frequency"
+                    value={formData.frequency}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select Frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="occurrenceCount">
+                    <FontAwesomeIcon icon={faHashtag} /> Number of Times
+                  </label>
+                  <input
+                    type="number"
+                    id="occurrenceCount"
+                    name="occurrenceCount"
+                    min="1"
+                    value={formData.occurrenceCount}
+                    onChange={handleInputChange}
+                    placeholder="Enter number of times"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="startDate">
+                    <FontAwesomeIcon icon={faCalendarDay} /> Start Date
+                  </label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
         <div className="form-actions">
           <button type="submit" className="submit-btn">
             <FontAwesomeIcon icon={faClipboardList} />
@@ -325,7 +410,6 @@ const PublicAreaRequest = () => {
         requestData={submittedData}
         requestType="publicArea"
       />
-      <Footer />
     </div>
   );
 };
