@@ -41,6 +41,7 @@ const Navbar = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             <div className="main-nav-menu">
   <NavLink to="/">Dashboard</NavLink>
   <NavLink to="/indent-request">Indent Request</NavLink>
+  <NavLink to="/cleaning-process">Cleaning Process</NavLink>
   <div className="dropdown">
     <span className="dropdown-toggle">More &#9662;</span>
     <div className="dropdown-menu">
@@ -49,9 +50,7 @@ const Navbar = ({ sidebarCollapsed, setSidebarCollapsed }) => {
       <NavLink to="/logout">Logout</NavLink>
     </div>
   </div>
-  <button className="icon-button" onClick={handleHandClick}>
-    <FontAwesomeIcon icon={faHandPointRight} className="nav-icon" />
-  </button>
+
 </div>
           </div>
           <div className="navbar-right">

@@ -304,11 +304,11 @@
   text-decoration: none;
   padding: 0 6px;
   transition: color 0.2s;
-  cursor: pointer;
+  cursor: pointer;  `
 }
 
 .main-nav-menu a:hover, .main-nav-menu .nav-dropdown > span:hover {
-  color: #37a9be;
+  color: #ffffff;
 }
 
 .nav-dropdown {
